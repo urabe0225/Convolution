@@ -1,0 +1,54 @@
+# Convolution CMake config file
+#
+# This file sets the following variables:
+# Convolution_FOUND - Always TRUE.
+# Convolution_INCLUDE_DIRS - Directories containing the Convolution include files.
+# Convolution_IDL_DIRS - Directories containing the Convolution IDL files.
+# Convolution_LIBRARIES - Libraries needed to use Convolution.
+# Convolution_DEFINITIONS - Compiler flags for Convolution.
+# Convolution_VERSION - The version of Convolution found.
+# Convolution_VERSION_MAJOR - The major version of Convolution found.
+# Convolution_VERSION_MINOR - The minor version of Convolution found.
+# Convolution_VERSION_REVISION - The revision version of Convolution found.
+# Convolution_VERSION_CANDIDATE - The candidate version of Convolution found.
+
+message(STATUS "Found Convolution-@PROJECT_VERSION@")
+set(Convolution_FOUND TRUE)
+
+find_package(<dependency> REQUIRED)
+
+#set(Convolution_INCLUDE_DIRS
+#    "@CMAKE_INSTALL_PREFIX@/include/@PROJECT_NAME_LOWER@-@PROJECT_VERSION_MAJOR@"
+#    ${<dependency>_INCLUDE_DIRS}
+#    )
+#
+#set(Convolution_IDL_DIRS
+#    "@CMAKE_INSTALL_PREFIX@/include/@PROJECT_NAME_LOWER@-@PROJECT_VERSION_MAJOR@/idl")
+set(Convolution_INCLUDE_DIRS
+    "@CMAKE_INSTALL_PREFIX@/include/@CPACK_PACKAGE_FILE_NAME@"
+    ${<dependency>_INCLUDE_DIRS}
+    )
+set(Convolution_IDL_DIRS
+    "@CMAKE_INSTALL_PREFIX@/include/@CPACK_PACKAGE_FILE_NAME@/idl")
+
+
+if(WIN32)
+    set(Convolution_LIBRARIES
+        "@CMAKE_INSTALL_PREFIX@/@LIB_INSTALL_DIR@/@CMAKE_SHARED_LIBRARY_PREFIX@@PROJECT_NAME_LOWER@@CMAKE_STATIC_LIBRARY_SUFFIX@"
+        ${<dependency>_LIBRARIES}
+        )
+else(WIN32)
+    set(Convolution_LIBRARIES
+        "@CMAKE_INSTALL_PREFIX@/@LIB_INSTALL_DIR@/@CMAKE_SHARED_LIBRARY_PREFIX@@PROJECT_NAME_LOWER@@CMAKE_SHARED_LIBRARY_SUFFIX@"
+        ${<dependency>_LIBRARIES}
+        )
+endif(WIN32)
+
+set(Convolution_DEFINITIONS ${<dependency>_DEFINITIONS})
+
+set(Convolution_VERSION @PROJECT_VERSION@)
+set(Convolution_VERSION_MAJOR @PROJECT_VERSION_MAJOR@)
+set(Convolution_VERSION_MINOR @PROJECT_VERSION_MINOR@)
+set(Convolution_VERSION_REVISION @PROJECT_VERSION_REVISION@)
+set(Convolution_VERSION_CANDIDATE @PROJECT_VERSION_CANDIDATE@)
+
