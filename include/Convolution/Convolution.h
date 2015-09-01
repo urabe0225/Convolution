@@ -239,7 +239,7 @@ class Convolution
   // <rtc-template block="config_declare">
 
   // </rtc-template>
-
+  short int m_direct;
   // DataInPort declaration
   // <rtc-template block="inport_declare">
   Vision::Matrix m_input;

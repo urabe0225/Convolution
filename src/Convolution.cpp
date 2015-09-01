@@ -25,6 +25,12 @@ static const char* convolution_spec[] =
     "max_instance",      "1",
     "language",          "C++",
     "lang_type",         "compile",
+    // Configuration variables
+    "conf.default.direction", "0:X",
+    // Widget
+    "conf.__widget__.direction", "radio",
+    // Constraints
+    "conf.__constraints__.direction", "(0:X,1:Y)",
     ""
   };
 // </rtc-template>
@@ -69,7 +75,7 @@ RTC::ReturnCode_t Convolution::onInitialize()
   // Set CORBA Service Ports
   
   // </rtc-template>
-
+  bindParameter("direction", m_direct, "0:X");
   // <rtc-template block="bind_config">
   // </rtc-template>
     inputFrame = cv::Mat::zeros(cv::Size(320,240),16);
@@ -138,7 +144,10 @@ RTC::ReturnCode_t Convolution::onExecute(RTC::UniqueId ec_id)
 
   GaussianBlur( inputFrame, inputFrame, Size(3,3), 0, 0, BORDER_DEFAULT );
   cvtColor( inputFrame, inputFrame, CV_BGR2GRAY);
-  Sobel( inputFrame, outputFrame, CV_16S, 1, 0, 3, 1, 0, BORDER_DEFAULT );
+  if(m_direct == 0)
+    Sobel( inputFrame, outputFrame, CV_16S, 1, 0, 3, 1, 0, BORDER_DEFAULT );
+  else
+    Sobel( inputFrame, outputFrame, CV_16S, 0, 1, 3, 1, 0, BORDER_DEFAULT );
   convertScaleAbs( outputFrame, outputFrame );
 //  inputFrame.convertTo(inputFrame,CV_32F);
 //  cv::filter2D(inputFrame, outputFrame, CV_32F, kernel);
